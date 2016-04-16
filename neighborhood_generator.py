@@ -6,9 +6,6 @@ Created on Sat Apr 16 13:32:16 2016
 """
 
 import random
-import rngs
-import rvgs
-import rvms
 import matplotlib.pyplot as plt
 import math
 
