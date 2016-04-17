@@ -3,7 +3,6 @@ import neighborhood_generator as ng
 import math
 import matplotlib.pyplot as plt
 
-
 def get_minPath(delivery_coords):
 
     min_distance = math.inf
@@ -56,3 +55,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
