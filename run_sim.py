@@ -8,6 +8,7 @@ import neighborhood_generator as ng
 import random
 import math
 import travel_path
+import matplotlib.pyplot as plt
 
 class StatsSums:
     def __init__(self):
@@ -31,14 +32,15 @@ class TimeStructure:
     def __init__(self):
         self.departure = -1       # time delivery driver departs
         self.done = -1       # time the next pizza is done
-        self.done_times = -1
+        self.done_times = -1   # array of done times of pizzas currently in the oven
         self.demand = -1       # time of next call-in for delivery
         self.arrival = -1       # time when the delivery driver arrives at the pizza shop
         self.current = -1       # current time
 
 
 def getDemand(low, high, mode):
-    return random.triangular(low, high, mode)
+    #return random.triangular(low, high, mode)
+    return random.uniform(19,21)
 
 
 def run_sim(gap, low, high, mode, maxTime):
@@ -63,14 +65,14 @@ def run_sim(gap, low, high, mode, maxTime):
             t.done = t.done_times[0]
         next_event = min(t.demand, t.arrival, t.done, t.departure)
         t.current = next_event
-        '''print("demand: " + str(t.demand))
+        print("demand: " + str(t.demand))
         print("arrival: " + str(t.arrival))
         print("done: " + str(t.done))
         print("depart: " + str(t.departure))
-        print("-----------------------------------")'''
+        print("-----------------------------------")
 
         if next_event == t.demand:
-            #print("demand")
+            print("demand")
             if t.current < maxTime:
                 t.done_times.append(t.current + 15)
                 delivery_coords.append(ng.get_order())
@@ -80,7 +82,7 @@ def run_sim(gap, low, high, mode, maxTime):
                 t.demand = infinity
 
         if next_event == t.done:
-            #print("done")
+            print("done")
             t.done_times.pop(0)
             stat_sums.inventory += 1
 
@@ -88,13 +90,14 @@ def run_sim(gap, low, high, mode, maxTime):
                 if t.arrival == infinity:
                     t.departure = t.current + gap
                 else:
-                    if t.current + gap < t.arrival:
+                    if t.current + gap <= t.arrival:
                         t.departure = t.arrival + 1
                     else:
                         t.current + gap
 
         if next_event == t.departure:
-            #print("depart")
+            print("depart")
+            print(len(delivery_coords))
             deliver_route = travel_path.get_minPath(delivery_coords)
             total_distance = 0
             x1 = 0
@@ -122,7 +125,7 @@ def run_sim(gap, low, high, mode, maxTime):
             stat_sums.inventory = 0
 
         if next_event == t.arrival:
-            #print("arrival")
+            print("arrival")
             t.arrival = infinity
 
     stats = Statistics()
@@ -139,8 +142,17 @@ def run_sim(gap, low, high, mode, maxTime):
         
 
 def main():
+    '''
+    avg_houses = []
+
+    for count in range(250, 260):
+
+        stats = run_sim(count, 15, 25, 20, 1440)
+        avg_houses.append(stats.avg_houses_per_trip)
+        '''
 
     stats = run_sim(5, 15, 25, 20, 720)
+
     print(stats.avg_travel_distance)
     #print(stats.avg_delivery_distance)
     print(stats.avg_travel_time)
@@ -149,7 +161,19 @@ def main():
     print(stats.total_houses)
     print("-------------------")
 
+'''
+    plt.title("Average Number of Houses Per Trip vs Gap Time")
+    plt.xlabel("Gap Time")
+    plt.ylabel("Average Houses")
+    plt.scatter(range(1,10), avg_houses)
+    plt.show()
+    '''
+
 
 
 if __name__ == '__main__':
     main()
+
+
+# section 7.5
+# transient stats
