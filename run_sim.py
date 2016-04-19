@@ -27,6 +27,7 @@ class Statistics:
         self.avg_delivery_time = 0.0
         self.avg_houses_per_trip = 0.0
         self.total_houses = 0
+        self.total_trips = 0
 
 class TimeStructure:
     def __init__(self):
@@ -38,19 +39,19 @@ class TimeStructure:
         self.current = -1       # current time
 
 
-def getDemand(low, high, mode):
+def getDemand():
     #return random.triangular(low, high, mode)
     return random.uniform(19,21)
 
 
-def run_sim(gap, low, high, mode, maxTime):
+def run_sim(gap, maxTime):
 
     stat_sums = StatsSums()
 
     t = TimeStructure()
     infinity = math.inf
 
-    t.demand = getDemand(low, high, mode)
+    t.demand = getDemand()
     t.done_times = []
     t.departure = infinity
     t.arrival = infinity
@@ -76,7 +77,7 @@ def run_sim(gap, low, high, mode, maxTime):
             if t.current < maxTime:
                 t.done_times.append(t.current + 15)
                 delivery_coords.append(ng.get_order())
-                t.demand = t.current + getDemand(low, high, mode)
+                t.demand = t.current + getDemand()
                 stat_sums.total_houses += 1
             else:
                 t.demand = infinity
@@ -136,6 +137,7 @@ def run_sim(gap, low, high, mode, maxTime):
     stats.avg_delivery_time = stats.avg_delivery_distance * 1.72
     stats.avg_houses_per_trip = stat_sums.total_houses / stat_sums.total_departs
     stats.total_houses = stat_sums.total_houses
+    stats.total_trips = stat_sums.total_departs
 
     return stats
 
@@ -151,7 +153,7 @@ def main():
         avg_houses.append(stats.avg_houses_per_trip)
         '''
 
-    stats = run_sim(5, 15, 25, 20, 720)
+    stats = run_sim(5, 720)
 
     print(stats.avg_travel_distance)
     #print(stats.avg_delivery_distance)
