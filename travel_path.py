@@ -40,6 +40,7 @@ def graph_minPath(min_path):
     plt.gcf().gca().add_artist(circle)
     plt.axis([-7, 7, -7, 7])
     plt.show()
+    #comment
 
 
 def main():

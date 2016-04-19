@@ -42,6 +42,7 @@ class TimeStructure:
 def getDemand():
     #return random.triangular(low, high, mode)
     return random.uniform(19,21)
+    #comment
 
 
 def run_sim(gap, maxTime):

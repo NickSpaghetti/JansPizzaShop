@@ -25,6 +25,7 @@ def avg_houses_graph():
     plt.xlabel("Minutes Shop is Open")
     plt.ylabel("Average Number of Houses on Delivery Route")
     plt.show()
+    #comment
 
 def main():
     avg_houses_graph()

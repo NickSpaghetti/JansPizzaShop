@@ -8,6 +8,7 @@ Created on Sat Apr 16 13:32:16 2016
 import random
 import matplotlib.pyplot as plt
 import math
+#comment
 
 def generate_static_neighborhood(): #Example 2.3.7 - 2.3.8 page 67-68
     random.seed(1337) #plant seed
