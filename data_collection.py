@@ -64,13 +64,11 @@ def avg_travle_time(gap):
     avg_travel = []
     
     for minutes in range(60, 721, 30):
-        total_trips = 0
         total_travle_time = 0
         for sims in range(0, 100):
             stats = sim.run_sim(gap, minutes)
-            total_trips += stats.total_trips
             total_travle_time += stats.avg_travel_time
-        avg = total_travle_time / total_trips
+        avg = total_travle_time / 100
         avg_travel.append(avg)
     return avg_travel
 
@@ -88,8 +86,8 @@ def gap_time_travle_time_graph():
     
     
 def main():
-    gap_time_house_distance_graph()
-    #gap_time_travle_time_graph()
+    #gap_time_house_distance_graph()
+    gap_time_travle_time_graph()
 
 if __name__ == '__main__':
     main()
