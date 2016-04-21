@@ -82,14 +82,16 @@ def run_sim(gap, slow_range, busy_range,  maxTime):
             t.done = t.done_times[0]
         next_event = min(t.demand, t.arrival, t.done, t.departure)
         t.current = next_event
+        '''
         print("demand: " + str(t.demand))
         print("arrival: " + str(t.arrival))
         print("done: " + str(t.done))
         print("depart: " + str(t.departure))
         print("-----------------------------------")
+        '''
 
         if next_event == t.demand:
-            print("demand")
+            #print("demand")
             if t.current < maxTime:
                 t.done_times.append(t.current + 15)
                 delivery_coords.append(ng.get_order())
@@ -100,7 +102,7 @@ def run_sim(gap, slow_range, busy_range,  maxTime):
                 t.demand = infinity
 
         if next_event == t.done:
-            print("done")
+            #print("done")
             t.done_times.pop(0)
             stat_sums.inventory += 1
 
@@ -114,8 +116,11 @@ def run_sim(gap, slow_range, busy_range,  maxTime):
                         t.current + gap
 
         if next_event == t.departure:
-            print("depart")
-            print(len(delivery_coords))
+            #print("depart")
+            #print(len(delivery_coords))
+            if(len(delivery_coords) > 10):
+                print("too many houses")
+                return
             deliver_route = travel_path.get_minPath(delivery_coords)
             total_distance = 0
             x1 = 0
@@ -143,7 +148,7 @@ def run_sim(gap, slow_range, busy_range,  maxTime):
             stat_sums.inventory = 0
 
         if next_event == t.arrival:
-            print("arrival")
+            #print("arrival")
             t.arrival = infinity
 
     stats = Statistics()
@@ -162,11 +167,7 @@ def run_sim(gap, slow_range, busy_range,  maxTime):
 
 
 def main():
-    stats = run_sim(10, 180, 45, 720)
-    print(stats.avg_houses_per_trip)
-    print(stats.avg_delivery_time)
-    print(stats.total_revenue)
-
+    print("")
 
 
 if __name__ == '__main__':
