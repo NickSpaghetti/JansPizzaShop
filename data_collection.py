@@ -91,12 +91,33 @@ def avg_revenue_busy_time():
 
     for busy in range(5, 120, 15):
         total_renvue = 0
-        for sims in range(0, 100):
+        for sims in range(0, 50):
             stats = sim2.run_sim(10, 240, busy,  720)
             total_renvue += stats.total_revenue
-        avg_revenue.append(total_renvue/100)
+        avg_revenue.append(total_renvue/50)
 
     plt.scatter(range(5, 120, 15), avg_revenue)
+    plt.title("Average Revenue vs Length of Busy Time")
+    plt.xlabel("Length of Busy Time")
+    plt.ylabel("Average Revenue")
+    plt.show()
+
+def avg_revenue_houses_busy_time():
+    avg_revenue = []
+    avg_house = []
+
+    for busy in range(0, 125, 25):
+        total_renvue = 0
+        total_houses = 0
+        for sims in range(0, 1):
+            stats = sim2.run_sim(5, 240, busy,  720)
+            total_renvue += stats.total_revenue
+            total_houses += stats.total_houses
+        avg_revenue.append(total_renvue/1)
+        avg_house.append(total_houses/1)
+
+    plt.scatter(range(0, 100, 25), avg_revenue, 'bo')
+    plt.scatter(range(0, 100, 25), avg_house, 'ro')
     plt.title("Average Revenue vs Length of Busy Time")
     plt.xlabel("Length of Busy Time")
     plt.ylabel("Average Revenue")
