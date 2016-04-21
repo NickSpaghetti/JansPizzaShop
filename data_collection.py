@@ -1,4 +1,5 @@
 import run_sim as sim
+import run_sim2 as sim2
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
@@ -83,11 +84,30 @@ def gap_time_travle_time_graph():
     plt.xlabel("Minutes Shop is Open")
     plt.ylabel("Average Travle Time on Delivery Route")
     plt.savefig("Average_Number_of_Houses_on_Avg_Travle_time_Route_with_gap_time")
+
+def avg_revenue_busy_time():
+
+    avg_revenue = []
+
+    for busy in range(5, 120, 15):
+        total_renvue = 0
+        for sims in range(0, 100):
+            stats = sim2.run_sim(10, 240, busy,  720)
+            total_renvue += stats.total_revenue
+        avg_revenue.append(total_renvue/100)
+
+    plt.scatter(range(5, 120, 15), avg_revenue)
+    plt.title("Average Revenue vs Length of Busy Time")
+    plt.xlabel("Length of Busy Time")
+    plt.ylabel("Average Revenue")
+    plt.show()
+
     
     
 def main():
     #gap_time_house_distance_graph()
-    gap_time_travle_time_graph()
+    #gap_time_travle_time_graph()
+    avg_revenue_busy_time()
 
 if __name__ == '__main__':
     main()

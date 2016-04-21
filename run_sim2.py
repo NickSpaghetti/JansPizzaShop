@@ -11,6 +11,7 @@ class StatsSums:
         self.total_houses = 0
         self.total_departs = 0
         self.inventory = 0
+        self.total_calls = 0
 
 
 class Statistics:
@@ -22,6 +23,7 @@ class Statistics:
         self.avg_houses_per_trip = 0.0
         self.total_houses = 0
         self.total_trips = 0
+        self.total_revenue = 0.0
 
 class TimeStructure:
     def __init__(self):
@@ -56,14 +58,14 @@ def getDemands(slow_range, busy_range, max_time):
     return demands
 
 
-def run_sim(gap, maxTime):
+def run_sim(gap, slow_range, busy_range,  maxTime):
 
     stat_sums = StatsSums()
 
     t = TimeStructure()
     infinity = math.inf
 
-    demands = getDemands(180, 45, maxTime)
+    demands = getDemands(slow_range, busy_range, maxTime)
 
     t.demand = demands[1]
     t.done_times = []
@@ -93,6 +95,7 @@ def run_sim(gap, maxTime):
                 delivery_coords.append(ng.get_order())
                 t.demand = t.current + demands[int(t.current)]
                 stat_sums.total_houses += 1
+                stat_sums.total_calls += 1
             else:
                 t.demand = infinity
 
@@ -152,13 +155,17 @@ def run_sim(gap, maxTime):
     stats.avg_houses_per_trip = stat_sums.total_houses / stat_sums.total_departs
     stats.total_houses = stat_sums.total_houses
     stats.total_trips = stat_sums.total_departs
+    stats.total_revenue = stat_sums.total_calls * 12.50
 
     return stats
 
 
 
 def main():
-    run_sim(10, 1440)
+    stats = run_sim(10, 180, 45, 720)
+    print(stats.avg_houses_per_trip)
+    print(stats.avg_delivery_time)
+    print(stats.total_revenue)
 
 
 
